@@ -35,7 +35,7 @@ class BookmePricingTable {
 		$table_service  = $wpdb->prefix . 'bm_services';
 		
 		if ( $wpdb->get_var( "SHOW TABLES LIKE 'bm_categories'" ) != 'bm_categories' ) {
-			if ( !empty($category_id) ) {
+			if ( ! empty( $category_id ) ) {
 				$sql = "SELECT * FROM $table_category WHERE id='$category_id'";
 			} else {
 				$sql = "SELECT * FROM $table_category";
@@ -109,7 +109,7 @@ class BookmePricingTable {
                     <div class="bm-pricing-table-item-inner">
                         <div class="bm-pricing-table-title-price-holder clearfix">
                             <h5 class="bm-pricing-table-title">
-                                <span class="bm-pricing-table-title-area">' . $service->title . '</span>
+                                <span class="bm-pricing-table-title-area">' . $service->title . ' (' . \Bookme\Inc\Mains\Functions\DateTime::seconds_to_interval( $service->duration ) . ')</span>
                             </h5>
                             <div class="bm-pricing-table-price-holder">
                                 <h5 class="bm-pricing-table-price">' . str_replace( ' ', '', money_format( '%(#1n', $service->price ) ) . '</h5>
@@ -226,5 +226,31 @@ class BookmePricingTable {
 </style>';
 		
 		return $content;
+	}
+	
+	public static function seconds_to_interval( $duration ): string {
+		$duration = (int) $duration;
+		
+		$weeks   = (int) ( $duration / WEEK_IN_SECONDS );
+		$days    = (int) ( ( $duration % WEEK_IN_SECONDS ) / DAY_IN_SECONDS );
+		$hours   = (int) ( ( $duration % DAY_IN_SECONDS ) / HOUR_IN_SECONDS );
+		$minutes = (int) ( ( $duration % HOUR_IN_SECONDS ) / MINUTE_IN_SECONDS );
+		
+		$parts = [];
+		
+		if ( $weeks > 0 ) {
+			$parts[] = sprintf( _n( '%d week', '%d weeks', $weeks, 'bookme_pricing_table' ), $weeks );
+		}
+		if ( $days > 0 ) {
+			$parts[] = sprintf( _n( '%d day', '%d days', $days, 'bookme_pricing_table' ), $days );
+		}
+		if ( $hours > 0 ) {
+			$parts[] = sprintf( __( '%d h', 'bookme_pricing_table' ), $hours );
+		}
+		if ( $minutes > 0 ) {
+			$parts[] = sprintf( __( '%d min', 'bookme_pricing_table' ), $minutes );
+		}
+		
+		return implode( ' ', $parts );
 	}
 }
