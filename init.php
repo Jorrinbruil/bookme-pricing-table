@@ -108,7 +108,7 @@ class BookmePricingTable {
                 <div class="bmpt-item">
                     <div class="bmpt-item-inner">
                         <h5 class="bmpt-title-price-holder clearfix">
-                            <div class="bmpt-title">' . $service->title . ' (' . \Bookme\Inc\Mains\Functions\DateTime::seconds_to_interval( $service->duration ) . ')</div>
+                            <div class="bmpt-title">' . $service->title . '<span class="bmpt-duration"> (' . \Bookme\Inc\Mains\Functions\DateTime::seconds_to_interval( $service->duration ) . ')</span></div>
                             <div class="bmpt-border"></div>
                             <div class="bmpt-price-holder">' . str_replace( ' ', '', money_format( '%(#1n', $service->price ) ) . '</div>
                         </h5> ';
@@ -180,6 +180,7 @@ class BookmePricingTable {
 .bmpt-title {
     margin: 0 0 .25rem;
     text-transform: uppercase;
+    word-break: break-all;
 }
 
 .bmpt-border {
@@ -193,6 +194,11 @@ class BookmePricingTable {
 .bmpt-price-holder {
     text-align: right;
     word-break: normal;
+}
+
+.bmpt-duration {
+	word-break: normal;
+	white-space: nowrap;
 }
 </style>';
 		
