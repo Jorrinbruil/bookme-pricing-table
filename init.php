@@ -99,24 +99,23 @@ class BookmePricingTable {
 		setlocale( LC_MONETARY, 'nl_NL.UTF-8' );
 		
 		foreach ( $categories as $category ) {
-			$content .= '<div class="bm-pricing-table">';
-			$content .= '<div class="bm-pricing-table-head"><h3>' . $category->name . '</h3></div>';
-			$content .= '<div class="bm-pricing-table-holder">';
+			$content .= '<div class="bmpt">';
+			$content .= '<div class="bmpt-head"><h3>' . $category->name . '</h3></div>';
+			$content .= '<div class="bmpt-holder">';
 			foreach ( $services as $service ) {
 				if ( $service->category_id === $category->id ) {
 					$content .= '
-                <div class="bm-pricing-table-item">
-                    <div class="bm-pricing-table-item-inner">
-                        <div class="bm-pricing-table-title-price-holder clearfix">
-                            <h5 class="bm-pricing-table-title">
-                                <span class="bm-pricing-table-title-area">' . $service->title . ' (' . \Bookme\Inc\Mains\Functions\DateTime::seconds_to_interval( $service->duration ) . ')</span>
-                            </h5>
-                            <div class="bm-pricing-table-price-holder">
-                                <h5 class="bm-pricing-table-price">' . str_replace( ' ', '', money_format( '%(#1n', $service->price ) ) . '</h5>
+                <div class="bmpt-item">
+                    <div class="bmpt-item-inner">
+                        <h5 class="bmpt-title-price-holder clearfix">
+                            <div class="bmpt-title">' . $service->title . ' (' . \Bookme\Inc\Mains\Functions\DateTime::seconds_to_interval( $service->duration ) . ')</div>
+                            <div class="bmpt-border"></div>
+                            <div class="bmpt-price-holder">
+                                <h5 class="bmpt-price">' . str_replace( ' ', '', money_format( '%(#1n', $service->price ) ) . '</h5>
                             </div>
-                        </div> ';
+                        </h5> ';
 					if ( strlen( $service->info ) > 0 ) {
-						$content .= '<p class="bm-pricing-table-desc">' . $service->info . '</p>';
+						$content .= '<div class="bmpt-desc">' . $service->info . '</div>';
 					}
 					$content .= '</div>';
 					$content .= '</div>';
@@ -129,7 +128,7 @@ class BookmePricingTable {
 		$content .= '
 <style>
 
-.bm-pricing-table {
+.bmpt {
     border: 1px solid #D6B981;
     background-color: #FFF;
     padding: 1.5rem 2rem 1.5rem;
@@ -138,21 +137,21 @@ class BookmePricingTable {
 }
 
 @media screen and (min-width: 768px) {
-    .bm-pricing-table {
-        padding: 2.5rem 3rem 2.5rem;
+    .bmpt {
+        padding: 2rem 3rem 2rem;
     }
 }
 
-.bm-pricing-table-head {
+.bmpt-head {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
-.bm-pricing-table-head h3 {
+.bmpt-head h3 {
     margin: 0 !important;
 }
 
-.bm-pricing-table-item {
+.bmpt-item {
     position: relative;
     display: table;
     table-layout: fixed;
@@ -160,11 +159,11 @@ class BookmePricingTable {
     width: 100%;
 }
 
-.bm-pricing-table-item:not(:last-child) {
-    margin-bottom: 2.5rem;
+.bmpt-item:not(:last-child) {
+    margin-bottom: 2rem;
 }
 
-.bm-pricing-table-item-inner {
+.bmpt-item-inner {
     position: relative;
     display: table-cell;
     height: 100%;
@@ -173,53 +172,31 @@ class BookmePricingTable {
     text-align: left;
 }
 
-.clearfix:after, .clearfix:before {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-.bm-pricing-table-title-price-holder {
+.bmpt-title-price-holder {
     position: relative;
+    display: flex;
+    align-items: end;
+    margin: 0 !important;
 }
 
-.bm-pricing-table-title {
-    margin: 0 0 4px;
-    width: 87%;
-    float: left;
-    position: relative;
-    box-sizing: border-box;
+.bmpt-title {
+    margin: 0 0 .25rem;
     text-transform: uppercase;
 }
 
-.bm-pricing-table-title:after {
-    position: relative;
-    content: \'\';
-    bottom: 4px;
-    width: 100%;
-    height: 1px;
+.bmpt-border {
     border-bottom: 1px dotted #000;
-    display: table-cell;
+    flex-grow: 1;
+    padding-top: 1rem;
+    margin: 0 .25rem;
 }
 
-.bm-pricing-table-title-area {
-    position: relative;
-    top: 1px;
-    padding-right: 15px;
-    display: table-cell;
-    white-space: nowrap;
-}
-
-.bm-pricing-table-price-holder {
+.bmpt-price-holder {
     float: right;
-    width: 10%;
     text-align: right;
 }
 
-.bm-pricing-table-price {
+.bmpt-price {
     margin: 0;
     letter-spacing: 0;
 }
