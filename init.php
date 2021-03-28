@@ -129,14 +129,14 @@ class BookmePricingTable {
 .bmpt {
     border: 1px solid #D6B981;
     background-color: #FFF;
-    padding: 1.5rem 2rem 1.5rem;
+    padding: 1.5rem 2rem;
     margin-bottom: 20px;
     height: 100%;
 }
 
 @media screen and (min-width: 768px) {
     .bmpt {
-        padding: 2rem 3rem 2rem;
+        padding: 1rem;
     }
 }
 
@@ -187,6 +187,7 @@ class BookmePricingTable {
     flex-grow: 1;
     padding-top: 1rem;
     margin: 0 .25rem;
+    min-width: 1rem;
 }
 
 .bmpt-price-holder {
