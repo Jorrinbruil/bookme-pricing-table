@@ -76,9 +76,10 @@ class BookmePricingTable {
 			$content .= '</thead>';
 			
 			$content .= '<tbody>';
+            $priceFmt = new NumberFormatter('nl_NL', NumberFormatter::CURRENCY);
 			foreach ( $services as $service ) {
 				if ( $service->catId === $category->id ) {
-					$content .= '<tr>' . '<td>' . $service->name . '</td>' . '<td>' . money_format( '%(#1n', $service->price ) . '</td>' . '</tr>';
+					$content .= '<tr>' . '<td>' . $service->name . '</td>' . '<td>' . $priceFmt->format($service->price) . '</td>' . '</tr>';
 				}
 			}
 			$content .= '</tbody>';
