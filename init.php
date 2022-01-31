@@ -98,7 +98,8 @@ class BookmePricingTable {
 	public function renderList( $categories, $services ): string {
 		$content = '';
 		setlocale( LC_MONETARY, 'nl_NL.UTF-8' );
-		
+
+        $priceFmt = new NumberFormatter('nl_NL', NumberFormatter::CURRENCY);
 		foreach ( $categories as $category ) {
 			$content .= '<div class="bmpt">';
 			$content .= '<div class="bmpt-head"><h3>' . $category->name . '</h3></div>';
@@ -111,7 +112,7 @@ class BookmePricingTable {
                         <h5 class="bmpt-title-price-holder clearfix">
                             <div class="bmpt-title">' . $service->title . '<span class="bmpt-duration"> (' . \Bookme\Inc\Mains\Functions\DateTime::seconds_to_interval( $service->duration ) . ')</span></div>
                             <div class="bmpt-border"></div>
-                            <div class="bmpt-price-holder">' . str_replace( ' ', '', money_format( '%(#1n', $service->price ) ) . '</div>
+                            <div class="bmpt-price-holder">' . str_replace( ' ', '', $priceFmt->format($service->price) ) . '</div>
                         </h5> ';
 					if ( strlen( $service->info ) > 0 ) {
 						$content .= '<div class="bmpt-desc">' . $service->info . '</div>';
